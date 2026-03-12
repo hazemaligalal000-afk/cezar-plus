@@ -58,9 +58,10 @@ function initOrderForm() {
 
     // Price mapping
     const prices = {
-        '1': 450,
-        '2': 800,
-        '3': 1100
+        '1': 1000,
+        '2': 1600,
+        '3': 2200,
+        'course': 1600
     };
 
     // Update price on quantity change
@@ -137,8 +138,8 @@ function resetForm() {
     successMsg.style.display = 'none';
 
     // Reset prices
-    document.getElementById('summary-price').textContent = '450 جنيه';
-    document.getElementById('summary-total').textContent = '450 جنيه';
+    document.getElementById('summary-price').textContent = '1000 جنيه';
+    document.getElementById('summary-total').textContent = '1000 جنيه';
 }
 
 /* ===== Countdown Timer ===== */
