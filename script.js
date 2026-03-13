@@ -316,8 +316,12 @@ function initOrderForm() {
     });
 
     // Handle form submission
+    let isSubmitting = false;
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        if (isSubmitting) return;
+        isSubmitting = true;
 
         const submitBtn = form.querySelector('button[type="submit"]');
         const btnText = submitBtn.querySelector('.btn-text');
@@ -373,6 +377,7 @@ function initOrderForm() {
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             loader.style.display = 'none';
+            isSubmitting = false;
         }, 1200);
     });
 }
