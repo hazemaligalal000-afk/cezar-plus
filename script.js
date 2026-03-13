@@ -15,7 +15,168 @@ document.addEventListener('DOMContentLoaded', () => {
     initOrderForm();
     initSalesToasts();
     initExitIntent();
+
+    // ─── META PIXEL EVENTS ─────────────────────────────────────
+    initPixelScrollDepth();       // ScrollDepth milestones
+    initPixelFormFocus();         // InitiateCheckout on form interaction
+    initPixelQuantityChange();    // AddToCart on quantity select
+    initPixelContactClicks();     // Contact event on WhatsApp / phone
+    initPixelFaqSearch();         // Search event on FAQ open
 });
+
+/* ==========================================================
+   META PIXEL — ADVANCED EVENT TRACKING
+   Standard: https://developers.facebook.com/docs/meta-pixel
+   CAPI:      https://developers.facebook.com/docs/marketing-api/conversions-api
+   ========================================================== */
+
+// ─── HELPER: Get selected quantity and price ─────────────────
+function _getOrderData() {
+    var qty   = document.getElementById('quantity');
+    var prices = { '1': 1000, '2': 1600, '3': 2200, 'course': 1600 };
+    var val   = qty ? qty.value : '1';
+    return {
+        num_items: isNaN(parseInt(val)) ? 1 : parseInt(val),
+        value:     prices[val] || 1000,
+        currency:  'EGP',
+        content_ids:  [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'CEZAR-PLUS-001'],
+        content_name: window.META_CONFIG && window.META_CONFIG.CONTENT_NAME || 'سيزار بلس',
+        content_type: 'product',
+    };
+}
+
+// ── 1. SCROLL DEPTH TRACKING ─────────────────────────────────
+// Fires a custom ScrollDepth event at 25%, 50%, 75%, 90%
+function initPixelScrollDepth() {
+    if (typeof fbq === 'undefined') return;
+    var milestones = {25: false, 50: false, 75: false, 90: false};
+    window.addEventListener('scroll', function() {
+        var scrolled = (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100;
+        Object.keys(milestones).forEach(function(pct) {
+            if (!milestones[pct] && scrolled >= parseInt(pct)) {
+                milestones[pct] = true;
+                var evtId = _genEventId('ScrollDepth_' + pct);
+                fbq('trackCustom', 'ScrollDepth', { depth: pct + '%' }, { eventID: evtId });
+                _sendCAPI('ScrollDepth', { depth: pct + '%' }, evtId);
+            }
+        });
+    }, { passive: true });
+}
+
+// ── 2. INITIATE CHECKOUT (Form first focus) ───────────────────
+// Fires when user clicks into any form field — very high-intent signal
+function initPixelFormFocus() {
+    if (typeof fbq === 'undefined') return;
+    var form   = document.getElementById('product-order-form');
+    if (!form) return;
+    var fired  = false;
+    form.addEventListener('focusin', function() {
+        if (fired) return;
+        fired = true;
+        var data  = _getOrderData();
+        var evtId = _genEventId('InitiateCheckout');
+        fbq('track', 'InitiateCheckout', data, { eventID: evtId });
+        _sendCAPI('InitiateCheckout', data, evtId);
+    }, { once: false });
+}
+
+// ── 3. ADD TO CART (Quantity / package select) ────────────────
+// Fires when user changes the quantity — strong purchase-intent signal
+function initPixelQuantityChange() {
+    if (typeof fbq === 'undefined') return;
+    var qty = document.getElementById('quantity');
+    if (!qty) return;
+    qty.addEventListener('change', function() {
+        var data  = _getOrderData();
+        var evtId = _genEventId('AddToCart');
+        fbq('track', 'AddToCart', data, { eventID: evtId });
+        _sendCAPI('AddToCart', data, evtId);
+    });
+}
+
+// ── 4. LEAD + COMPLETE REGISTRATION (Form submit) ────────────
+// Fires Lead (website_leads) + CompleteRegistration on successful submit.
+// Also hashes phone & name via SHA-256 for Advanced Matching.
+function trackLeadEvent(name, phone, governorate, quantity, totalValue) {
+    if (typeof fbq === 'undefined') return;
+
+    var data = {
+        content_name:  'سيزار بلس - طلب جديد',
+        content_ids:   [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'CEZAR-PLUS-001'],
+        currency:      'EGP',
+        value:         totalValue,
+        num_items:     1,
+        status:        'submitted',
+        // Custom dimensions — visible in Events Manager
+        custom_data: {
+            governorate:   governorate,
+            package:       quantity,
+            source:        'landing_page',
+            product:       'cezar_plus',
+        },
+    };
+
+    var leadEvtId = _genEventId('Lead');
+    var regEvtId  = _genEventId('CompleteRegistration');
+
+    // ── Pixel (browser-side) ──────────────────────────────────
+    fbq('track', 'Lead', data, { eventID: leadEvtId });
+    fbq('track', 'CompleteRegistration', {
+        content_name: 'سيزار بلس - طلب مكتمل',
+        currency:     'EGP',
+        value:        totalValue,
+        status:       true,
+    }, { eventID: regEvtId });
+
+    // ── CAPI (server-side) with hashed PII ───────────────────
+    Promise.all([
+        _sha256(phone.replace(/\D/g,'')),
+        _sha256(name),
+    ]).then(function(hashed) {
+        var userData = {
+            ph: hashed[0],  // E.164 digits only, SHA-256
+            fn: hashed[1],  // first name SHA-256
+        };
+        _sendCAPI('Lead', data, leadEvtId, userData);
+        _sendCAPI('CompleteRegistration', {
+            content_name: 'سيزار بلس - طلب مكتمل',
+            currency:     'EGP',
+            value:        totalValue,
+            status:       true,
+        }, regEvtId, userData);
+    });
+}
+
+// ── 5. CONTACT (WhatsApp & Phone clicks) ─────────────────────
+function initPixelContactClicks() {
+    if (typeof fbq === 'undefined') return;
+    document.querySelectorAll('a[href^="https://wa.me/"], a[href^="tel:"]').forEach(function(link) {
+        link.addEventListener('click', function() {
+            var evtId = _genEventId('Contact');
+            var isWA  = link.href.startsWith('https://wa.me/');
+            fbq('track', 'Contact', {
+                content_name: isWA ? 'WhatsApp' : 'Phone',
+            }, { eventID: evtId });
+            _sendCAPI('Contact', { content_name: isWA ? 'WhatsApp' : 'Phone' }, evtId);
+        });
+    });
+}
+
+// ── 6. SEARCH (FAQ accordion open) ───────────────────────────
+// Treat FAQ interactions as a Search signal — user researching the product
+function initPixelFaqSearch() {
+    if (typeof fbq === 'undefined') return;
+    document.querySelectorAll('.faq-question').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var query = btn.querySelector('span') ? btn.querySelector('span').textContent : '';
+            if (!query) return;
+            var evtId = _genEventId('Search');
+            fbq('track', 'Search', { search_string: query }, { eventID: evtId });
+            _sendCAPI('Search', { search_string: query }, evtId);
+        });
+    });
+}
+
 
 /* ===== Sales Toasts (Social Proof) ===== */
 function initSalesToasts() {
@@ -195,6 +356,11 @@ function initOrderForm() {
         setTimeout(() => {
             // Open WhatsApp
             window.open(whatsappURL, '_blank');
+
+            // ── Fire Lead + CompleteRegistration ─────────────────
+            var numericTotal = parseInt((totalDisplay.textContent || '0').replace(/\D/g,'')) || 1000;
+            trackLeadEvent(name, phone, gov, qty, numericTotal);
+            // ─────────────────────────────────────────────────────
 
             // Show success state on page
             form.style.display = 'none';

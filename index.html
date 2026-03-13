@@ -14,6 +14,171 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- ============================================================
+         META PIXEL + ADVANCED TRACKING SETUP
+         Engineer: Senior Tracking Implementation
+         Version: 2.0 | Pixel + CAPI Deduplication Ready
+    ============================================================ -->
+
+    <!-- ① META PIXEL BASE CODE ---------------------------------- -->
+    <script>
+        // ─── CONFIGURATION ────────────────────────────────────────
+        // ⚠️  Replace with your real values before going live
+        window.META_CONFIG = {
+            PIXEL_ID:       '1849510309093506',          // e.g. '1234567890123456'
+            CAPI_TOKEN:     'EAAib1p8XrGkBQxrLab0Rh3crMFksOmjDQXndjMJqDlA4pO9N8T1ZAnAeZA42HdpWZCegJGAV8KpEZAo7ZAqspG8d03d9Vu5DdlMFGxT4B54PpLOU5MDB7tQRRJfkgZAiwddjTcqvLr5ZAs0beTPWLZA7ECD74QdPDmxQkZBoMoYZB1cpFu4qWJtKRSEqLjP1sxRAZDZD', // System User access token
+            CAPI_ENDPOINT:  'https://graph.facebook.com/v19.0/',
+            TEST_EVENT_CODE: '',                            // e.g. 'TEST12345' — remove in prod
+            CURRENCY:       'EGP',
+            CONTENT_ID:     'CEZAR-PLUS-001',
+            CONTENT_NAME:   'سيزار بلس',
+            CONTENT_TYPE:   'product',
+        };
+        // ─────────────────────────────────────────────────────────
+
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', window.META_CONFIG.PIXEL_ID, {
+            // Advanced Matching — pass hashed PII when available
+            // em: sha256(email),
+            // ph: sha256(phone),
+        });
+
+        // ── PageView — fires immediately ───────────────────────
+        fbq('track', 'PageView');
+
+        // ── ViewContent — fires on tab become visible ──────────
+        (function() {
+            var fired = false;
+            function fireVC() {
+                if (fired) return;
+                fired = true;
+                var evtId = _genEventId('ViewContent');
+                fbq('track', 'ViewContent', {
+                    content_ids:  [window.META_CONFIG.CONTENT_ID],
+                    content_name: window.META_CONFIG.CONTENT_NAME,
+                    content_type: window.META_CONFIG.CONTENT_TYPE,
+                    currency:     window.META_CONFIG.CURRENCY,
+                    value:        1000,
+                }, { eventID: evtId });
+                _sendCAPI('ViewContent', {
+                    content_ids:  [window.META_CONFIG.CONTENT_ID],
+                    content_name: window.META_CONFIG.CONTENT_NAME,
+                    content_type: window.META_CONFIG.CONTENT_TYPE,
+                    currency:     window.META_CONFIG.CURRENCY,
+                    value:        1000,
+                }, evtId);
+            }
+            // fire after LCP or at 3s whichever first
+            if ('PerformanceObserver' in window) {
+                try {
+                    var po = new PerformanceObserver(function(l) {
+                        var e = l.getEntries().slice(-1)[0];
+                        if (e && e.startTime < 5000) { po.disconnect(); fireVC(); }
+                    });
+                    po.observe({type:'largest-contentful-paint', buffered:true});
+                } catch(e) {}
+            }
+            setTimeout(fireVC, 3000);
+        })();
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=1849510309093506&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- END META PIXEL BASE CODE -------------------------------- -->
+
+    <!-- ② PIXEL UTILITY LIBRARY --------------------------------- -->
+    <script>
+    // ─── Event ID generator for CAPI deduplication ──────────────
+    function _genEventId(eventName) {
+        return eventName + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // ─── SHA-256 helper (Web Crypto API) ────────────────────────
+    async function _sha256(str) {
+        if (!str) return '';
+        str = str.trim().toLowerCase();
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    // ─── Collect browser signals ─────────────────────────────────
+    function _getClientInfo() {
+        return {
+            fbc:  _getCookie('_fbc')  || '',
+            fbp:  _getCookie('_fbp')  || '',
+            client_user_agent: navigator.userAgent,
+            client_ip_address: '', // populated server-side
+            event_source_url:  location.href,
+        };
+    }
+
+    function _getCookie(name) {
+        var m = document.cookie.match(new RegExp('(?:^|;)\\s*' + name + '=([^;]*)'));
+        return m ? decodeURIComponent(m[1]) : '';
+    }
+
+    // ─── Conversions API gateway (client-side relay) ─────────────
+    // For production: route through YOUR server endpoint to protect the token.
+    // This client-side relay is acceptable for low-risk leads pages.
+    async function _sendCAPI(eventName, params, eventId, userData) {
+        var cfg = window.META_CONFIG;
+        if (!cfg.PIXEL_ID || cfg.PIXEL_ID === 'YOUR_PIXEL_ID_HERE') return;
+        if (!cfg.CAPI_TOKEN || cfg.CAPI_TOKEN === 'YOUR_CAPI_ACCESS_TOKEN_HERE') return;
+
+        var ci = _getClientInfo();
+        var ud = Object.assign({
+            client_user_agent: ci.client_user_agent,
+            fbc:  ci.fbc,
+            fbp:  ci.fbp,
+        }, userData || {});
+
+        // remove empty strings
+        Object.keys(ud).forEach(k => { if(!ud[k]) delete ud[k]; });
+
+        var payload = {
+            data: [{
+                event_name:       eventName,
+                event_time:       Math.floor(Date.now() / 1000),
+                event_id:         eventId,
+                event_source_url: ci.event_source_url,
+                action_source:    'website',
+                user_data:        ud,
+                custom_data:      params,
+            }],
+        };
+
+        if (cfg.TEST_EVENT_CODE) {
+            payload.test_event_code = cfg.TEST_EVENT_CODE;
+        }
+
+        try {
+            await fetch(cfg.CAPI_ENDPOINT + cfg.PIXEL_ID + '/events?access_token=' + cfg.CAPI_TOKEN, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload),
+                keepalive: true,
+            });
+        } catch(e) {
+            console.warn('[CAPI] Send failed:', e);
+        }
+    }
+
+    // ─── Expose globally ─────────────────────────────────────────
+    window._genEventId = _genEventId;
+    window._sha256     = _sha256;
+    window._sendCAPI   = _sendCAPI;
+    </script>
+    <!-- END PIXEL UTILITY LIBRARY ------------------------------- -->
 </head>
 
 <body>
