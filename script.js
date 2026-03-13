@@ -13,7 +13,89 @@ document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     initRemainingCount();
     initOrderForm();
+    initSalesToasts();
+    initExitIntent();
 });
+
+/* ===== Sales Toasts (Social Proof) ===== */
+function initSalesToasts() {
+    const toast = document.getElementById('sales-toast');
+    const userEl = toast.querySelector('.toast-user');
+    const actionEl = toast.querySelector('.toast-action');
+    const closeBtn = toast.querySelector('.toast-close');
+
+    const names = ['أحمد من القاهرة', 'سارة من الإسكندرية', 'محمد من الجيزة', 'مريم من المنصورة', 'خالد من طنطا', 'ياسمين من الزقازيق', 'عمر من أسيوط', 'ليلى من بورسعيد', 'إبراهيم من سوهاج', 'نورهان من الفيوم'];
+    const actions = ['طلب عبوتين الآن 📦', 'طلب العرض الذهبي ✨', 'حجز الكورس المتكامل 🔥', 'طلب عبوة واحدة الآن ✅'];
+
+    function showRandomToast() {
+        if (sessionStorage.getItem('exit_modal_shown') === 'true') return;
+
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        const randomAction = actions[Math.floor(Math.random() * actions.length)];
+
+        userEl.textContent = randomName;
+        actionEl.textContent = randomAction;
+
+        toast.classList.add('show');
+
+        // Hide after 6 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 6000);
+    }
+
+    // Show first toast after 5 seconds
+    setTimeout(showRandomToast, 5000);
+
+    // Show every 15-25 seconds
+    setInterval(() => {
+        if (!toast.classList.contains('show')) {
+            showRandomToast();
+        }
+    }, Math.random() * 10000 + 15000);
+
+    closeBtn.addEventListener('click', () => {
+        toast.classList.remove('show');
+    });
+}
+
+/* ===== Exit Intent Modal ===== */
+function initExitIntent() {
+    const modal = document.getElementById('exit-modal');
+    const closeBtn = modal.querySelector('.modal-close');
+
+    if (localStorage.getItem('cezar_exit_shown')) return;
+
+    document.addEventListener('mouseleave', (e) => {
+        if (e.clientY < 0 && !localStorage.getItem('cezar_exit_shown')) {
+            showExitModal();
+        }
+    });
+
+    // Mobile swipe up fallback? Difficult to detect.
+    // Use timeout as fallback for mobile
+    setTimeout(() => {
+        if (!localStorage.getItem('cezar_exit_shown')) {
+            // showExitModal(); // Maybe too annoying on mobile
+        }
+    }, 45000);
+
+    closeBtn.addEventListener('click', closeExitModal);
+}
+
+function showExitModal() {
+    const modal = document.getElementById('exit-modal');
+    modal.classList.add('show');
+    localStorage.setItem('cezar_exit_shown', 'true');
+}
+
+function closeExitModal() {
+    const modal = document.getElementById('exit-modal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 400);
+}
 
 /* ===== Navbar Scroll Effect ===== */
 function initNavbar() {
