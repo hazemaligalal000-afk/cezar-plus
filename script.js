@@ -374,8 +374,8 @@ function initOrderForm() {
             total_price: total
         };
 
-        // Google Sheets Sync URL (Activated)
-        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwM7NNJt8ZBBuIce3CiZMQBz8f22j6uLAjh85JaYii1tVHDTM4Lh7D1MSBm5pCJ-KnzAw/exec';
+        // Updated Google Sheets Sync URL (Enhanced Version)
+        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwGED_jVHQyoonsLM-Rz8zd9dIq1CBHb8AM5QNn8kuYoExNMDnt-vuxFClFp0k53HbCeg/exec';
 
         // Attempt to sync with Sheet (Parallel to redirect)
         fetch(gasWebAppUrl, {
