@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOrderForm();
     initSalesToasts();
     initExitIntent();
+    initReviews();
 
     // ─── META PIXEL EVENTS ─────────────────────────────────────
     initPixelScrollDepth();       // ScrollDepth milestones
@@ -22,6 +23,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initPixelQuantityChange();    // AddToCart on quantity select
     initPixelContactClicks();     // Contact event on WhatsApp / phone
     initPixelFaqSearch();         // Search event on FAQ open
+
+    // Attach review carousel controls
+    const prevBtn = document.getElementById('prev-review');
+    const nextBtn = document.getElementById('next-review');
+    
+    if (prevBtn && nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const list = document.getElementById('reviews-list');
+            const total = list ? list.children.length : 0;
+            if (currentReviewIndex < total - 1) {
+                currentReviewIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentReviewIndex > 0) {
+                currentReviewIndex--;
+                updateCarousel();
+            }
+        });
+    }
 });
 
 /* ==========================================================
@@ -757,29 +780,3 @@ function updateCarousel() {
     // RTL Carousel translate logic (positive translates right)
     list.style.transform = `translateX(calc(${currentReviewIndex * 100}% + ${currentReviewIndex * 20}px))`;
 }
-
-// Ensure initReviews runs when DOM is loaded and attach carousel controls
-document.addEventListener('DOMContentLoaded', () => {
-    initReviews();
-
-    const prevBtn = document.getElementById('prev-review');
-    const nextBtn = document.getElementById('next-review');
-    
-    if (prevBtn && nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            const list = document.getElementById('reviews-list');
-            const total = list ? list.children.length : 0;
-            if (currentReviewIndex < total - 1) {
-                currentReviewIndex++;
-                updateCarousel();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentReviewIndex > 0) {
-                currentReviewIndex--;
-                updateCarousel();
-            }
-        });
-    }
-});
