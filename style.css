@@ -5,10 +5,10 @@
 
 /* ===== CSS Variables ===== */
 :root {
-    --primary: #D4880F;
-    --primary-dark: #B8720B;
-    --primary-light: #F0A830;
-    --primary-glow: rgba(212, 136, 15, 0.3);
+    --primary: #701c37;
+    --primary-dark: #4d1024;
+    --primary-light: #a63d5c;
+    --primary-glow: rgba(112, 28, 55, 0.3);
     --secondary: #1B6B3A;
     --secondary-dark: #0F4D28;
     --secondary-light: #2A8B4F;
@@ -413,7 +413,7 @@ a {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(145deg, #0F2818 0%, #1A3D28 30%, #1B4B30 60%, #2A5A3A 100%);
+    background: linear-gradient(145deg, #2D0B16 0%, #4D1024 30%, #701C37 60%, #8E254A 100%);
     overflow: hidden;
     padding: 100px 0 80px;
 }
