@@ -380,9 +380,9 @@ function initOrderForm() {
         // Attempt to sync with Sheet (Parallel to redirect)
         fetch(gasWebAppUrl, {
             method: 'POST',
-            mode: 'no-cors', // standard for GAS webapps
+            mode: 'no-cors',
             cache: 'no-cache',
-            headers: { 'Content-Type': 'application/json' },
+            // Omit custom headers to avoid CORS pre-flight issues with GAS
             body: JSON.stringify(orderData)
         }).catch(err => console.error('Sheet Sync Error:', err));
         // ─────────────────────────────────────────────────────────
