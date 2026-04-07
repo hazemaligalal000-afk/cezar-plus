@@ -33,14 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── HELPER: Get selected quantity and price ─────────────────
 function _getOrderData() {
     var qty   = document.getElementById('quantity');
-    var prices = { '1': 1000, '2': 1600, '3': 2200, 'course': 1600 };
     var val   = qty ? qty.value : '1';
     return {
-        num_items: isNaN(parseInt(val)) ? 1 : parseInt(val),
-        value:     prices[val] || 1000,
+        num_items: 1,
+        value:     1500,
         currency:  'EGP',
-        content_ids:  [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'CEZAR-PLUS-001'],
-        content_name: window.META_CONFIG && window.META_CONFIG.CONTENT_NAME || 'سيزار بلس',
+        content_ids:  [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'IVITASANA-001'],
+        content_name: window.META_CONFIG && window.META_CONFIG.CONTENT_NAME || 'إيفيتاسانا',
         content_type: 'product',
     };
 }
@@ -299,21 +298,8 @@ function initOrderForm() {
 
     if (!form) return;
 
-    // Price mapping
-    const prices = {
-        '1': 1000,
-        '2': 1600,
-        '3': 2200,
-        'course': 1600
-    };
-
-    // Update price on quantity change
-    qtySelect.addEventListener('change', () => {
-        const qty = qtySelect.value;
-        const price = prices[qty];
-        priceDisplay.textContent = `${price} جنيه`;
-        totalDisplay.textContent = `${price} جنيه`;
-    });
+    // Remove price mapping calculation since it's hardcoded to 1500 EGP
+    // If the quantity select still exists in DOM, disable its event listener or ignore it.
 
     // Handle form submission
     let isSubmitting = false;
@@ -331,9 +317,10 @@ function initOrderForm() {
         const name = document.getElementById('full-name').value;
         const phone = document.getElementById('phone').value;
         const gov = document.getElementById('governorate').value;
-        const qty = qtySelect.options[qtySelect.selectedIndex].text;
         const address = document.getElementById('address').value;
-        const total = totalDisplay.textContent;
+        // Hardcode quantity to 1 because there are no packages anymore
+        const qty = 'عبوة واحدة'; 
+        const total = totalDisplay.textContent || '1500 جنيه';
 
         // Disable button and show loader
         submitBtn.disabled = true;
@@ -341,16 +328,16 @@ function initOrderForm() {
         loader.style.display = 'inline-block';
 
         // Construct WhatsApp message
-        const whatsappNumber = '201020760067';
+        const whatsappNumber = '201097752858';
         const message =
-            `*طلب جديد لسيزار بلس - Cezar Plus*%0A` +
+            `*طلب جديد لكبسولات ايفيتاسانا - Ivitasana*%0A` +
             `-------------------------------------------%0A` +
             `👤 *الاسم:* ${name}%0A` +
             `📱 *الموبايل:* ${phone}%0A` +
             `📍 *المحافظة:* ${gov}%0A` +
             `📦 *الكمية:* ${qty}%0A` +
             `🏠 *العنوان:* ${address}%0A` +
-            `💰 *الإجمالي:* ${total}%0A` +
+            `💰 *الإجمالي المباع به:* ${total}%0A` +
             `-------------------------------------------%0A` +
             `✅ الدفع عند الاستلام - شحن سريع`;
 
@@ -362,7 +349,7 @@ function initOrderForm() {
             window.open(whatsappURL, '_blank');
 
             // ── Fire Lead + CompleteRegistration ─────────────────
-            var numericTotal = parseInt((totalDisplay.textContent || '0').replace(/\D/g,'')) || 1000;
+            var numericTotal = 1500;
             trackLeadEvent(name, phone, gov, qty, numericTotal);
             // ─────────────────────────────────────────────────────
 
@@ -400,6 +387,8 @@ function initCountdown() {
     const hoursEl = document.getElementById('cd-hours');
     const minutesEl = document.getElementById('cd-minutes');
     const secondsEl = document.getElementById('cd-seconds');
+
+    if (!hoursEl || !minutesEl || !secondsEl) return;
 
     // Set countdown to end of today + 24 hours
     let savedEnd = localStorage.getItem('cezar_countdown_end');
@@ -441,20 +430,32 @@ function initCounterAnimation() {
     const counters = document.querySelectorAll('.stat-number');
     let animated = false;
 
+    function runAnimation() {
+        if (animated) return;
+        animated = true;
+        counters.forEach(counter => {
+            const target = parseInt(counter.dataset.target);
+            if (!isNaN(target)) animateCounter(counter, target);
+        });
+    }
+
+    // Use threshold:0 so it fires as soon as 1px is visible
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !animated) {
-                animated = true;
-                counters.forEach(counter => {
-                    const target = parseInt(counter.dataset.target);
-                    animateCounter(counter, target);
-                });
-            }
+            if (entry.isIntersecting) runAnimation();
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0 });
 
     const proofBar = document.querySelector('.social-proof-bar');
-    if (proofBar) observer.observe(proofBar);
+    if (proofBar) {
+        observer.observe(proofBar);
+        // Also check immediately in case it's already in viewport on load
+        const rect = proofBar.getBoundingClientRect();
+        if (rect.top < window.innerHeight) runAnimation();
+    } else {
+        // Fallback: run after 1 second if no section found
+        setTimeout(runAnimation, 1000);
+    }
 }
 
 function animateCounter(element, target) {
@@ -613,4 +614,172 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
+});
+
+/* ===== User Reviews Logic ===== */
+function initReviews() {
+    const ratingSelect = document.getElementById('rating-select');
+    const reviewStarsInput = document.getElementById('review-stars');
+    const stars = ratingSelect ? ratingSelect.querySelectorAll('.star-btn') : [];
+
+    if (ratingSelect) {
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                const val = parseInt(e.target.dataset.val);
+                reviewStarsInput.value = val;
+                
+                stars.forEach(s => {
+                    if (parseInt(s.dataset.val) <= val) {
+                        s.style.color = '#ffc107'; // Active star color
+                        s.classList.add('active');
+                    } else {
+                        s.style.color = '#ccc';   // Inactive star color
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+
+    renderReviews();
+}
+
+function submitReview(event) {
+    event.preventDefault();
+    
+    const nameInput = document.getElementById('reviewer-name');
+    const textInput = document.getElementById('review-text');
+    const starsInput = document.getElementById('review-stars');
+    const successMsg = document.getElementById('review-success-msg');
+    
+    const name = nameInput.value.trim() || 'عميل لـ Ivitasana';
+    const text = textInput.value.trim();
+    const stars = parseInt(starsInput.value) || 5;
+    
+    if (!text) return;
+    
+    const newReview = {
+        name: name,
+        text: text,
+        stars: stars,
+        date: 'منذ قليل'
+    };
+    
+    let reviews = JSON.parse(localStorage.getItem('ivitasana_reviews')) || getInitialReviews();
+    reviews.unshift(newReview);
+    localStorage.setItem('ivitasana_reviews', JSON.stringify(reviews));
+    
+    renderReviews();
+    
+    nameInput.value = '';
+    textInput.value = '';
+    
+    successMsg.style.display = 'block';
+    setTimeout(() => {
+        successMsg.style.display = 'none';
+        document.getElementById('reviews-list').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 2000);
+}
+
+function getInitialReviews() {
+    return [
+        {
+            name: 'نجوى فؤاد',
+            text: 'نتيجته روعة بجد، حسيت بفرق من تالت يوم في سد الشهية وحرق الدهون.',
+            stars: 5,
+            date: 'منذ يومين'
+        },
+        {
+            name: 'علي محمود',
+            text: 'آمن جداً ومحسيتش بأي أعراض جانبية زي المنتجات التانية اللي جربتها.',
+            stars: 5,
+            date: 'منذ 3 أيام'
+        },
+        {
+            name: 'دعاء سعيد',
+            text: 'ممتاز وعن تجربة، نزلت عليه 7 كيلو في أول شهر بدون حرمان.',
+            stars: 4,
+            date: 'منذ أسبوع'
+        }
+    ];
+}
+
+let currentReviewIndex = 0;
+
+function renderReviews() {
+    const list = document.getElementById('reviews-list');
+    const countEl = document.getElementById('reviews-count');
+    
+    if (!list) return;
+    
+    const reviews = JSON.parse(localStorage.getItem('ivitasana_reviews')) || getInitialReviews();
+    
+    list.innerHTML = '';
+    
+    reviews.forEach(review => {
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+            starsHtml += `<span style="color: ${i <= review.stars ? '#ffc107' : '#ccc'}; font-size: 1.2rem;">★</span>`;
+        }
+        
+        const reviewEl = document.createElement('div');
+        reviewEl.style.cssText = 'padding: 20px; border-radius: 10px; background: #fdfdfd; border: 1px solid #eee; display: flex; flex-direction: column; gap: 10px; min-width: 100%; box-sizing: border-box;';
+        reviewEl.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
+                <strong style="color: var(--primary); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 35px; height: 35px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;">
+                        ${review.name.charAt(0)}
+                    </div>
+                    ${review.name}
+                </strong>
+                <span style="color: #888; font-size: 0.9rem;">${review.date}</span>
+            </div>
+            <div>
+                ${starsHtml}
+            </div>
+            <p style="color: #444; line-height: 1.6; margin: 0; font-size: 1.05rem;">"${review.text}"</p>
+        `;
+        list.appendChild(reviewEl);
+    });
+    
+    if (countEl) {
+        countEl.textContent = reviews.length;
+    }
+
+    updateCarousel();
+}
+
+function updateCarousel() {
+    const list = document.getElementById('reviews-list');
+    const reviewsElements = document.querySelectorAll('#reviews-list > div');
+    if (!list || reviewsElements.length === 0) return;
+    
+    // RTL Carousel translate logic (positive translates right)
+    list.style.transform = `translateX(calc(${currentReviewIndex * 100}% + ${currentReviewIndex * 20}px))`;
+}
+
+// Ensure initReviews runs when DOM is loaded and attach carousel controls
+document.addEventListener('DOMContentLoaded', () => {
+    initReviews();
+
+    const prevBtn = document.getElementById('prev-review');
+    const nextBtn = document.getElementById('next-review');
+    
+    if (prevBtn && nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const list = document.getElementById('reviews-list');
+            const total = list ? list.children.length : 0;
+            if (currentReviewIndex < total - 1) {
+                currentReviewIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentReviewIndex > 0) {
+                currentReviewIndex--;
+                updateCarousel();
+            }
+        });
+    }
 });

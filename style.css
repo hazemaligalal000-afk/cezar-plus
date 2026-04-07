@@ -2416,3 +2416,100 @@ a {
     padding-top: 20px !important;
     text-align: center !important;
 }
+
+/* ==========================================
+   HIGH-CONVERTING MOBILE UX/UI OPTIMIZATIONS
+   ========================================== */
+@media (max-width: 767px) {
+    /* 1. Global Spacing & Typography */
+    .section {
+        padding: 40px 15px !important;
+    }
+    .section-title {
+        font-size: 1.65rem !important;
+        margin-bottom: 12px !important;
+    }
+    .section-subtitle {
+        font-size: 0.95rem !important;
+    }
+    
+    /* 2. Hero Section - Push content higher above the fold */
+    .hero {
+        padding: 100px 15px 40px !important;
+        min-height: auto !important;
+    }
+    .hero-title {
+        font-size: 1.85rem !important;
+    }
+    .hero-image {
+        width: 100% !important;
+        max-width: 250px !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3. CTA Buttons (Bigger, Tappable) */
+    .btn {
+        width: 100% !important;
+        padding: 16px 20px !important;
+        font-size: 1.15rem !important;
+        border-radius: 12px !important; /* Slightly squared for modern tactile feel */
+        box-shadow: 0 8px 25px rgba(212, 136, 15, 0.5) !important;
+    }
+    
+    /* 4. Form Inputs (Prevent iOS zoom, easy to tap) */
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        font-size: 16px !important; /* Crucial for iOS */
+        padding: 16px !important;
+        border-radius: 10px !important;
+        border: 2px solid #ddd !important;
+        background: #fdfdfd !important;
+    }
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+        border-color: var(--primary) !important;
+        background: #fff !important;
+        box-shadow: 0 0 0 4px rgba(212, 136, 15, 0.1) !important;
+    }
+
+    /* 5. Sticky Call To Action Visibility */
+    .sticky-cta-bar {
+        padding: 12px 15px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-top: 1px solid #eee !important;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08) !important;
+    }
+    .sticky-cta-btn {
+        padding: 14px !important;
+        font-size: 1.05rem !important;
+        border-radius: 10px !important;
+        box-shadow: none !important;
+    }
+    .sticky-cta-btn.sticky-cta-call {
+        background: #fff !important;
+        color: var(--text-dark) !important;
+        border: 2px solid #eee !important;
+    }
+
+    /* 6. WhatsApp Float Fixes */
+    .whatsapp-float {
+        bottom: 95px !important;
+        width: 55px !important;
+        height: 55px !important;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5) !important;
+    }
+    
+    /* 7. Pricing Contrast */
+    .order-summary {
+        background: #f4f7f6 !important;
+        border: 2px dashed var(--primary) !important;
+    }
+    
+    /* 8. Grid Spacing */
+    .comparison-table td, .comparison-table th {
+        padding: 12px 8px !important;
+        font-size: 0.85rem !important;
+    }
+}
