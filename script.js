@@ -61,7 +61,7 @@ function _getOrderData() {
         num_items: 1,
         value:     1500,
         currency:  'EGP',
-        content_ids:  [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'LAVITASANA-001'],
+        content_ids:  [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'IAVITASANA-001'],
         content_name: window.META_CONFIG && window.META_CONFIG.CONTENT_NAME || 'لافيتاسانا',
         content_type: 'product',
     };
@@ -124,7 +124,7 @@ function trackLeadEvent(name, phone, governorate, quantity, totalValue) {
 
     var data = {
         content_name:  'لافيتاسانا - طلب جديد',
-        content_ids:   [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'LAVITASANA-001'],
+        content_ids:   [window.META_CONFIG && window.META_CONFIG.CONTENT_ID || 'IAVITASANA-001'],
         currency:      'EGP',
         value:         totalValue,
         num_items:     1,
@@ -247,10 +247,10 @@ function initExitIntent() {
     const modal = document.getElementById('exit-modal');
     const closeBtn = modal.querySelector('.modal-close');
 
-    if (localStorage.getItem('lavitasana_exit_shown')) return;
+    if (localStorage.getItem('iavitasana_exit_shown')) return;
 
     document.addEventListener('mouseleave', (e) => {
-        if (e.clientY < 0 && !localStorage.getItem('lavitasana_exit_shown')) {
+        if (e.clientY < 0 && !localStorage.getItem('iavitasana_exit_shown')) {
             showExitModal();
         }
     });
@@ -258,7 +258,7 @@ function initExitIntent() {
     // Mobile swipe up fallback? Difficult to detect.
     // Use timeout as fallback for mobile
     setTimeout(() => {
-        if (!localStorage.getItem('lavitasana_exit_shown')) {
+        if (!localStorage.getItem('iavitasana_exit_shown')) {
             // showExitModal(); // Maybe too annoying on mobile
         }
     }, 45000);
@@ -269,7 +269,7 @@ function initExitIntent() {
 function showExitModal() {
     const modal = document.getElementById('exit-modal');
     modal.classList.add('show');
-    localStorage.setItem('lavitasana_exit_shown', 'true');
+    localStorage.setItem('iavitasana_exit_shown', 'true');
 }
 
 function closeExitModal() {
@@ -353,7 +353,7 @@ function initOrderForm() {
         // Construct WhatsApp message
         const whatsappNumber = '201097752858';
         const message =
-            `*طلب جديد لكبسولات لافيتاسانا - Lavitasana*%0A` +
+            `*طلب جديد لكبسولات لافيتاسانا - Iavitasana*%0A` +
             `-------------------------------------------%0A` +
             `👤 *الاسم:* ${name}%0A` +
             `📱 *الموبايل:* ${phone}%0A` +
@@ -414,14 +414,14 @@ function initCountdown() {
     if (!hoursEl || !minutesEl || !secondsEl) return;
 
     // Set countdown to end of today + 24 hours
-    let savedEnd = localStorage.getItem('lavitasana_countdown_end');
+    let savedEnd = localStorage.getItem('iavitasana_countdown_end');
     let endTime;
 
     if (savedEnd && parseInt(savedEnd) > Date.now()) {
         endTime = parseInt(savedEnd);
     } else {
         endTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from now
-        localStorage.setItem('lavitasana_countdown_end', endTime.toString());
+        localStorage.setItem('iavitasana_countdown_end', endTime.toString());
     }
 
     function updateCountdown() {
@@ -431,7 +431,7 @@ function initCountdown() {
         if (diff <= 0) {
             // Reset countdown
             endTime = Date.now() + (24 * 60 * 60 * 1000);
-            localStorage.setItem('lavitasana_countdown_end', endTime.toString());
+            localStorage.setItem('iavitasana_countdown_end', endTime.toString());
             return;
         }
 
@@ -598,7 +598,7 @@ function initRemainingCount() {
     const countEl = document.getElementById('remaining-count');
     if (!countEl) return;
 
-    let savedCount = localStorage.getItem('lavitasana_remaining');
+    let savedCount = localStorage.getItem('iavitasana_remaining');
     let count;
 
     if (savedCount) {
@@ -614,7 +614,7 @@ function initRemainingCount() {
         if (count > 3) {
             count--;
             countEl.textContent = count;
-            localStorage.setItem('lavitasana_remaining', count.toString());
+            localStorage.setItem('iavitasana_remaining', count.toString());
 
             // Flash effect
             countEl.style.color = '#E74C3C';
@@ -675,7 +675,7 @@ function submitReview(event) {
     const starsInput = document.getElementById('review-stars');
     const successMsg = document.getElementById('review-success-msg');
     
-    const name = nameInput.value.trim() || 'عميل لـ Lavitasana';
+    const name = nameInput.value.trim() || 'عميل لـ Iavitasana';
     const text = textInput.value.trim();
     const stars = parseInt(starsInput.value) || 5;
     
@@ -688,9 +688,9 @@ function submitReview(event) {
         date: 'منذ قليل'
     };
     
-    let reviews = JSON.parse(localStorage.getItem('lavitasana_reviews')) || getInitialReviews();
+    let reviews = JSON.parse(localStorage.getItem('iavitasana_reviews')) || getInitialReviews();
     reviews.unshift(newReview);
-    localStorage.setItem('lavitasana_reviews', JSON.stringify(reviews));
+    localStorage.setItem('iavitasana_reviews', JSON.stringify(reviews));
     
     renderReviews();
     
@@ -735,7 +735,7 @@ function renderReviews() {
     
     if (!list) return;
     
-    const reviews = JSON.parse(localStorage.getItem('lavitasana_reviews')) || getInitialReviews();
+    const reviews = JSON.parse(localStorage.getItem('iavitasana_reviews')) || getInitialReviews();
     
     list.innerHTML = '';
     
