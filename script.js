@@ -364,6 +364,29 @@ function initOrderForm() {
             `-------------------------------------------%0A` +
             `✅ الدفع عند الاستلام - شحن سريع`;
 
+        // ── Google Sheets Sync ────────────────────────────────────
+        const orderData = {
+            name: name,
+            phone: phone,
+            governorate: gov,
+            address: address,
+            quantity: qty,
+            total_price: total
+        };
+
+        // Google Sheets Sync URL (Activated)
+        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwM7NNJt8ZBBuIce3CiZMQBz8f22j6uLAjh85JaYii1tVHDTM4Lh7D1MSBm5pCJ-KnzAw/exec';
+
+        // Attempt to sync with Sheet (Parallel to redirect)
+        fetch(gasWebAppUrl, {
+            method: 'POST',
+            mode: 'no-cors', // standard for GAS webapps
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        }).catch(err => console.error('Sheet Sync Error:', err));
+        // ─────────────────────────────────────────────────────────
+
         const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
 
         // Simulation delay then redirect
