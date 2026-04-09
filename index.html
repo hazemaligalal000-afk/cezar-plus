@@ -22,19 +22,27 @@
 
     <!-- ① META PIXEL BASE CODE ---------------------------------- -->
     <script>
-        // ─── CONFIGURATION ────────────────────────────────────────
-        // ⚠️  Replace with your real values before going live
+        // ─── 1. CONFIGURATION ──────────────────────────────────────
         window.META_CONFIG = {
-            PIXEL_ID:       '1849510309093506',          // e.g. '1234567890123456'
-            CAPI_TOKEN:     'EAAib1p8XrGkBQxrLab0Rh3crMFksOmjDQXndjMJqDlA4pO9N8T1ZAnAeZA42HdpWZCegJGAV8KpEZAo7ZAqspG8d03d9Vu5DdlMFGxT4B54PpLOU5MDB7tQRRJfkgZAiwddjTcqvLr5ZAs0beTPWLZA7ECD74QdPDmxQkZBoMoYZB1cpFu4qWJtKRSEqLjP1sxRAZDZD', // System User access token
+            PIXEL_ID:       '966718645875276',
+            CAPI_TOKEN:     'EAAib1p8XrGkBRDWNCNe5gjRK2gzGkOG8PYn75I9kVZCsh6jJu0ZCGFbZCOZCEBEoZBK4YmLfSLwhGV2f73Dn1DMOWVusQDNS0EkZCY7r5nkWZALKNWwa73ZCP8tiqA8Hlooyhs7xrZCP8tiqA8Hlooyhs7xrZCM9emnmoqYkqzS83lFrdAYfZA2gqjN68zVAPOZCUWff5890sJew8S0UwGIAZDZD',
             CAPI_ENDPOINT:  'https://graph.facebook.com/v19.0/',
-            TEST_EVENT_CODE: '',                            // e.g. 'TEST12345' — remove in prod
+            TEST_EVENT_CODE: '',
             CURRENCY:       'EGP',
             CONTENT_ID:     'IAVITASANA-001',
             CONTENT_NAME:   'Iavitasana',
             CONTENT_TYPE:   'product',
         };
-        // ─────────────────────────────────────────────────────────
+
+        // Hoisted helper needed for initialization
+        function _getExternalId() {
+            let extId = localStorage.getItem('meta_external_id');
+            if (!extId) {
+                extId = 'ext_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('meta_external_id', extId);
+            }
+            return extId;
+        }
 
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -47,9 +55,7 @@
         
         fbq('set', 'autoConfig', false, window.META_CONFIG.PIXEL_ID);
         fbq('init', window.META_CONFIG.PIXEL_ID, {
-            // Advanced Matching — pass hashed PII when available
-            // em: sha256(email),
-            // ph: sha256(phone),
+            external_id: _getExternalId(),
         });
 
         // ── PageView — fires immediately ───────────────────────
@@ -67,14 +73,14 @@
                     content_name: window.META_CONFIG.CONTENT_NAME,
                     content_type: window.META_CONFIG.CONTENT_TYPE,
                     currency:     window.META_CONFIG.CURRENCY,
-                    value:        1000,
+                    value:        1500,
                 }, { eventID: evtId });
                 _sendCAPI('ViewContent', {
                     content_ids:  [window.META_CONFIG.CONTENT_ID],
                     content_name: window.META_CONFIG.CONTENT_NAME,
                     content_type: window.META_CONFIG.CONTENT_TYPE,
                     currency:     window.META_CONFIG.CURRENCY,
-                    value:        1000,
+                    value:        1500,
                 }, evtId);
             }
             // fire after LCP or at 3s whichever first
@@ -92,91 +98,90 @@
     </script>
     <noscript>
         <img height="1" width="1" style="display:none"
-             src="https://www.facebook.com/tr?id=1849510309093506&ev=PageView&noscript=1"/>
+             src="https://www.facebook.com/tr?id=966718645875276&ev=PageView&noscript=1"/>
     </noscript>
     <!-- END META PIXEL BASE CODE -------------------------------- -->
 
     <!-- ② PIXEL UTILITY LIBRARY --------------------------------- -->
     <script>
-    // ─── Event ID generator for CAPI deduplication ──────────────
-    function _genEventId(eventName) {
-        return eventName + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
-
-    // ─── SHA-256 helper (Web Crypto API) ────────────────────────
-    async function _sha256(str) {
-        if (!str) return '';
-        str = str.trim().toLowerCase();
-        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-    }
-
-    // ─── Collect browser signals ─────────────────────────────────
-    function _getClientInfo() {
-        return {
-            fbc:  _getCookie('_fbc')  || '',
-            fbp:  _getCookie('_fbp')  || '',
-            client_user_agent: navigator.userAgent,
-            client_ip_address: '', // populated server-side
-            event_source_url:  location.href,
-        };
-    }
-
-    function _getCookie(name) {
-        var m = document.cookie.match(new RegExp('(?:^|;)\\s*' + name + '=([^;]*)'));
-        return m ? decodeURIComponent(m[1]) : '';
-    }
-
-    // ─── Conversions API gateway (client-side relay) ─────────────
-    // For production: route through YOUR server endpoint to protect the token.
-    // This client-side relay is acceptable for low-risk leads pages.
-    async function _sendCAPI(eventName, params, eventId, userData) {
-        var cfg = window.META_CONFIG;
-        if (!cfg.PIXEL_ID || cfg.PIXEL_ID === 'YOUR_PIXEL_ID_HERE') return;
-        if (!cfg.CAPI_TOKEN || cfg.CAPI_TOKEN === 'YOUR_CAPI_ACCESS_TOKEN_HERE') return;
-
-        var ci = _getClientInfo();
-        var ud = Object.assign({
-            client_user_agent: ci.client_user_agent,
-            fbc:  ci.fbc,
-            fbp:  ci.fbp,
-        }, userData || {});
-
-        // remove empty strings
-        Object.keys(ud).forEach(k => { if(!ud[k]) delete ud[k]; });
-
-        var payload = {
-            data: [{
-                event_name:       eventName,
-                event_time:       Math.floor(Date.now() / 1000),
-                event_id:         eventId,
-                event_source_url: ci.event_source_url,
-                action_source:    'website',
-                user_data:        ud,
-                custom_data:      params,
-            }],
-        };
-
-        if (cfg.TEST_EVENT_CODE) {
-            payload.test_event_code = cfg.TEST_EVENT_CODE;
+        // ─── 2. UTILITY FUNCTIONS ──────────────────────────────────
+        function _genEventId(eventName) {
+            return eventName + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        try {
-            await fetch(cfg.CAPI_ENDPOINT + cfg.PIXEL_ID + '/events?access_token=' + cfg.CAPI_TOKEN, {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify(payload),
-                keepalive: true,
-            });
-        } catch(e) {
-            console.warn('[CAPI] Send failed:', e);
+        async function _sha256(str) {
+            if (!str) return '';
+            str = str.trim().toLowerCase();
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
         }
-    }
 
-    // ─── Expose globally ─────────────────────────────────────────
-    window._genEventId = _genEventId;
-    window._sha256     = _sha256;
-    window._sendCAPI   = _sendCAPI;
+        function _getClientInfo() {
+            return {
+                fbc:  _getCookie('_fbc')  || '',
+                fbp:  _getCookie('_fbp')  || '',
+                client_user_agent: navigator.userAgent,
+                event_source_url:  location.href,
+            };
+        }
+
+        function _getCookie(name) {
+            var m = document.cookie.match(new RegExp('(?:^|;)\\s*' + name + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : '';
+        }
+
+        async function _sendCAPI(eventName, params, eventId, userData) {
+            var cfg = window.META_CONFIG;
+            if (!cfg.PIXEL_ID || cfg.PIXEL_ID.includes('YOUR')) return;
+            var ci = _getClientInfo();
+            var ud = Object.assign({
+                client_user_agent: ci.client_user_agent,
+                fbc:  ci.fbc,
+                fbp:  ci.fbp,
+                external_id: _getExternalId(),
+            }, userData || {});
+            Object.keys(ud).forEach(k => { if(!ud[k]) delete ud[k]; });
+
+            var payload = {
+                data: [{
+                    event_name:       eventName,
+                    event_time:       Math.floor(Date.now() / 1000),
+                    event_id:         eventId,
+                    event_source_url: ci.event_source_url,
+                    action_source:    'website',
+                    user_data:        ud,
+                    custom_data:      params,
+                }],
+            };
+            if (cfg.TEST_EVENT_CODE) payload.test_event_code = cfg.TEST_EVENT_CODE;
+
+            try {
+                fetch(cfg.CAPI_ENDPOINT + cfg.PIXEL_ID + '/events?access_token=' + cfg.CAPI_TOKEN, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true,
+                });
+            } catch(e) {}
+        }
+    </script>
+
+    <!-- ② ENGAGEMENT TRACKING (Advanced Signals) ---------------- -->
+    <script>
+        // Engagement: TimeOnPage (30s & 60s)
+        [30, 60].forEach(sec => {
+            setTimeout(() => {
+                var evtId = _genEventId('TimeOnPage_' + sec);
+                fbq('trackCustom', 'TimeOnPage', { seconds: sec }, { eventID: evtId });
+                _sendCAPI('TimeOnPage', { seconds: sec }, evtId);
+            }, sec * 1000);
+        });
+
+        // ─── 5. EXPOSE GLOBALS ─────────────────────────────────────
+        window._sendCAPI   = _sendCAPI;
+        window._genEventId = _genEventId;
+        window._sha256     = _sha256;
+        window._getExternalId = _getExternalId;
     </script>
     <!-- END PIXEL UTILITY LIBRARY ------------------------------- -->
 </head>

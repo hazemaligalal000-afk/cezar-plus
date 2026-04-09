@@ -424,8 +424,8 @@ function resetForm() {
     successMsg.style.display = 'none';
 
     // Reset prices
-    document.getElementById('summary-price').textContent = '1000 جنيه';
-    document.getElementById('summary-total').textContent = '1000 جنيه';
+    document.getElementById('summary-price').textContent = '1500 جنيه';
+    document.getElementById('summary-total').textContent = '1500 جنيه';
 }
 
 /* ===== Countdown Timer ===== */
