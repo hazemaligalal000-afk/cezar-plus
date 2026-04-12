@@ -257,7 +257,7 @@
                     </div>
                     <div class="trust-item">
                         <span class="trust-icon">🛡️</span>
-                        <span>ضمان الجودة</span>
+                        <span>ضمان استعادة الأموال</span>
                     </div>
                 </div>
             </div>
@@ -319,7 +319,7 @@
                 </div>
                 <div class="badge-item">
                     <img src="https://cdn-icons-png.flaticon.com/512/3503/3503521.png" alt="ضمان">
-                    <span>المنتج الأصلي 100%</span>
+                    <span>ضمان ذهبي لاسترداد الأموال</span>
                 </div>
             </div>
         </div>
@@ -431,8 +431,8 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap">🇺🇸</div>
-                    <h3>منتج أمريكي أصلي</h3>
-                    <p>جودة عالية وموثوقة لضمان أفضل النتائج ليكي</p>
+                    <h3>تركيبة أمريكية بتصنيع مرخص</h3>
+                    <p>مكونات بجودة أمريكية عالمية، ومصنع محلياً بتصريح رسمي لضمان أفضل النتائج بأمان</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap">💊</div>
@@ -448,23 +448,223 @@
         </div>
     </section>
 
-    <!-- ==================== MID CTA ==================== -->
-    <section class="mid-cta-section">
+    <!-- ==================== OFFER SECTION ==================== -->
+    <section class="section offer-section" id="offer">
         <div class="container">
-            <div class="mid-cta-content">
-                <h2>🔥 عرض خاص لفترة محدودة - خصم 35%</h2>
-                <p>احجز عبوتك الآن قبل نفاد الكمية والعرض يخلص</p>
-                <div class="mid-cta-buttons">
-                    <a href="#order-section" class="btn btn-primary btn-lg pulse-animate">اطلب الآن قبل انتهاء العرض
-                        ⚡</a>
-                </div>
-                <div class="mid-cta-urgency">
-                    <div class="urgency-icon">⏰</div>
-                    <span>العرض متاح لفترة محدودة فقط - <strong id="remaining-count">23</strong> عبوة متبقية</span>
+            <div class="section-header">
+                <span class="section-badge">🔥 عروض الباقات الحصرية</span>
+                <h2 class="section-title">اختر الباقة الأنسب لك ولأهدافك</h2>
+                <p class="section-subtitle">نوفر لك أفضل قيمة مقابل السعر لضمان استمراريتك وتحقيق حلمك</p>
+            </div>
+
+            <style>
+                .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+                .pkg-card { background: #fff; border-radius: 20px; padding: 30px; text-align: center; position: relative; border: 2px solid #eaeaea; transition: var(--transition); display: flex; flex-direction: column; }
+                .pkg-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+                .pkg-bestseller { border-color: var(--primary); box-shadow: 0 10px 40px rgba(46, 204, 113, 0.2); transform: scale(1.05); z-index: 2; }
+                .pkg-bestseller:hover { transform: scale(1.05) translateY(-5px); }
+                .pkg-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 5px 20px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(46,204,113,0.3); white-space: nowrap; }
+                .pkg-title { font-size: 1.5rem; color: var(--text-dark); margin: 20px 0 10px; }
+                .pkg-desc { color: #666; font-size: 0.9rem; margin-bottom: 20px; min-height: 40px; }
+                .pkg-price-wrap { display: flex; justify-content: center; align-items: baseline; gap: 10px; margin-bottom: 25px; }
+                .pkg-new { font-size: 2.5rem; font-weight: 900; color: var(--text-dark); }
+                .pkg-currency { font-size: 1.2rem; font-weight: bold; color: #888; }
+                .pkg-old { text-decoration: line-through; color: #aaa; font-size: 1.1rem; }
+                .pkg-features { flex-grow: 1; text-align: right; margin-bottom: 30px; }
+                .pkg-feature { margin-bottom: 15px; color: var(--text-dark); font-weight: 500; display: flex; align-items: center; gap: 10px; }
+                .pkg-feature i { color: var(--primary); }
+                .bonus-box { background: #fffcf0; border: 1px dashed #f1c40f; border-radius: 10px; padding: 15px; margin-top: 15px; text-align: right; font-size: 0.9rem; font-weight: bold; color: #d35400; }
+                @media (max-width: 768px) { .pkg-bestseller { transform: none; } .pkg-bestseller:hover { transform: translateY(-5px); } }
+            </style>
+
+            <div class="packages-grid" style="display: flex; justify-content: center; align-items: center;">
+                <!-- Package 1 (Premium Single Offer) -->
+                <div class="pkg-card pkg-bestseller" style="max-width: 450px; width: 100%; padding: 40px; border-radius: 25px; background: linear-gradient(to bottom, #ffffff, #fcfcfc); box-shadow: 0 20px 50px rgba(46, 204, 113, 0.15);">
+                    <div class="pkg-badge" style="background: linear-gradient(135deg, #f1c40f, #e67e22); padding: 8px 25px; font-size: 1rem; letter-spacing: 0.5px;">🔥 العرض الحصري</div>
+                    <h3 class="pkg-title" style="font-size: 1.8rem; margin-top: 25px; color: #2c3e50;">باقة التجربة الفعالة</h3>
+                    <p class="pkg-desc" style="font-size: 1.05rem; margin-bottom: 25px;">عبوة واحدة تكفي لمدة شهر - الحل الأمثل لبداية رحلة التغيير وتحقيق أفضل النتائج</p>
+                    <div class="pkg-price-wrap" style="margin-bottom: 30px; background: #f8fcf0; padding: 15px; border-radius: 15px; border: 1px dashed #2ecc71;">
+                        <span class="pkg-old" style="font-size: 1.3rem;">2000</span>
+                        <span class="pkg-new" style="font-size: 3rem; color: #d35400;">1500</span>
+                        <span class="pkg-currency" style="font-size: 1.3rem; color: #d35400;">ج.م</span>
+                    </div>
+                    <div class="pkg-features" style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 35px;">
+                        <div class="pkg-feature"><span style="font-size: 1.3rem;">✅</span> عبوة أصلية كاملة (30 كبسولة)</div>
+                        <div class="pkg-feature"><span style="font-size: 1.3rem;">✅</span> شحن مجاني وسريع لأي محافظة</div>
+                        <div class="pkg-feature"><span style="font-size: 1.3rem;">✅</span> الدفع بعد الاستلام والمعاينة</div>
+                        <div class="pkg-feature"><span style="font-size: 1.3rem;">✅</span> ضمان استعادة الأموال 14 يوماً</div>
+                        <div class="bonus-box" style="margin-top: 20px; font-size: 1.05rem; background: #fff4e6; border-color: #e67e22;">
+                            🎁 هدية مجانية: متابعة طبية أسبوعية مع أخصائي تغذية محترف للتأكد من نزول وزنك
+                        </div>
+                    </div>
+                    <a href="#order-section" class="btn btn-xl pulse-animate full-width pkg-btn" data-pkg="1" style="background: linear-gradient(135deg, #e67e22, #d35400); color: #fff; border: none; font-size: 1.3rem; padding: 18px; border-radius: 15px; box-shadow: 0 10px 25px rgba(211, 84, 0, 0.4); text-transform: uppercase; font-weight: 900;">اطلب عرضك الآن 🛒</a>
                 </div>
             </div>
         </div>
     </section>
+
+<!-- ==================== ORDER FORM SECTION ==================== -->
+
+    <section class="section order-section" id="order-section">
+        <div class="container">
+            <div class="order-form-container">
+                <div class="order-form-header">
+                    <div class="of-badge">🚀 أسرع طلب في مصر</div>
+                    <h2 class="section-title">اطلب Iavitasana الآن</h2>
+                    <p class="section-subtitle">انضم لأكثر من 50,000 عميل راضي وابدأ رحلة التغيير اليوم!</p>
+                    
+                    <!-- Form Progress Tracker -->
+                    <div class="form-progress">
+                        <div class="progress-step active">
+                            <span class="step-dot">1</span>
+                            <span class="step-text">البيانات</span>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <span class="step-dot">2</span>
+                            <span class="step-text">تأكيد الطلب</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="product-order-form" class="order-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="full-name">الاسم بالكامل</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">👤</span>
+                                <input type="text" id="full-name" name="name" placeholder="مثلاً: محمد أحمد علي"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">رقم الموبايل</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📱</span>
+                                <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="governorate">المحافظة</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📍</span>
+                                <select id="governorate" name="governorate" required>
+                                    <option value="" disabled selected>اختر محافظتك</option>
+                                    <option value="Cairo">القاهرة</option>
+                                    <option value="Giza">الجيزة</option>
+                                    <option value="Alexandria">الإسكندرية</option>
+                                    <option value="Qalyubia">القليوبية</option>
+                                    <option value="Dakahlia">الدقهلية</option>
+                                    <option value="Gharbia">الغربية</option>
+                                    <option value="Sharqia">الشرقية</option>
+                                    <option value="Monufia">المنوفية</option>
+                                    <option value="Beheira">البحيرة</option>
+                                    <option value="Kafr El Sheikh">كفر الشيخ</option>
+                                    <option value="Damietta">دمياط</option>
+                                    <option value="Port Said">بورسعيد</option>
+                                    <option value="Ismailia">الإسماعيلية</option>
+                                    <option value="Suez">السويس</option>
+                                    <option value="Fayoum">الفيوم</option>
+                                    <option value="Beni Suef">بني سويف</option>
+                                    <option value="Minya">المنيا</option>
+                                    <option value="Assiut">أسيوط</option>
+                                    <option value="Sohag">سوهاج</option>
+                                    <option value="Qena">قنا</option>
+                                    <option value="Luxor">الأقصر</option>
+                                    <option value="Aswan">أسوان</option>
+                                    <option value="Red Sea">البحر الأحمر</option>
+                                    <option value="Matrouh">مطروح</option>
+                                    <option value="New Valley">الوادي الجديد</option>
+                                    <option value="North Sinai">شمال سيناء</option>
+                                    <option value="South Sinai">جنوب سيناء</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Removed quantity selector, always 1 unit at 1500 EGP -->
+                        <div class="form-group full-width">
+                            <label for="quantity">الباقة المختارة</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📦</span>
+                                <select id="quantity" name="quantity" required style="font-weight: bold; color: var(--primary);">
+                                    <option value="1" selected>🔥 باقة التجربة الفعالة (عبوة واحدة) - 1500 ج + المتابعة مجاناً</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address">العنوان بالتفصيل</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🏠</span>
+                            <textarea id="address" name="address" rows="3"
+                                placeholder="اكتب عنوانك بالتفصيل (رقم البيت، الشارع، المنطقة)" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-item">
+                            <span>سعر المنتج الأصلي (قبل الخصم):</span>
+                            <span style="text-decoration: line-through; color: #aaa;">2000 جنيه</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>سعر المنتج بعد الخصم:</span>
+                            <span id="summary-price" style="font-weight: bold; color: var(--primary);">1500 جنيه</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>الشحن:</span>
+                            <span class="free-shipping">مجاني اليوم 🎉</span>
+                        </div>
+                        <div class="summary-total">
+                            <span>الإجمالي المطلوب:</span>
+                            <span id="summary-total">1500 جنيه</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-xl full-width pulse-animate">
+                        <span class="btn-text">تأكيد الطلب الآن 🛒</span>
+                        <div class="btn-loader" style="display: none;"></div>
+                    </button>
+
+                    <div class="form-footer">
+                        <p>🔒 بياناتك في أمان تام - الدفع عند الاستلام</p>
+                    </div>
+                </form>
+
+                
+                <!-- UPSELL MODAL -->
+                <div id="upsell-modal" class="order-success-msg" style="display: none; border: 2px dashed #f39c12; background: #fffdf5;">
+                    <div class="success-icon" style="background: #f39c12;">⏳</div>
+                    <h3 style="color: #d35400;">انتظر! طلبك لم يكتمل بعد...</h3>
+                    <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">تسريع حرق الدهون بنسبة 40% مع شاي الديتوكس الصحي!</p>
+                    <div style="background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 15px; text-align: right;">
+                        <img src="images/product.jpg" alt="Detox Tea" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover; filter: hue-rotate(90deg);">
+                        <div>
+                            <h4 style="margin: 0 0 5px; color: var(--text-dark);">شاي ديتوكس التخسيس</h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">يخلص الجسم من السموم ويعالج الانتفاخات ويسرع من فعالية الكبسولات.</p>
+                            <div style="margin-top: 5px;">
+                                <span style="text-decoration: line-through; color: #aaa; font-size: 0.9rem;">600 ج.م</span>
+                                <span style="font-weight: bold; color: #e74c3c; font-size: 1.1rem; margin-right: 5px;">فقط 300 ج.م</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary pulse-animate" onclick="acceptUpsell()" style="width: 100%; margin-bottom: 10px; font-size: 1.1rem; background: #2ecc71;">نعم، أضف شاي الديتوكس لطلبي (وفر 50%) ✅</button>
+                    <button class="btn btn-outline" onclick="declineUpsell()" style="width: 100%; border: none; color: #888; text-decoration: underline;">لا شكراً، أكمل طلبي بدون إضافة</button>
+                </div>
+                
+                <div id="order-success" class="order-success-msg" style="display: none;">
+                    <div class="success-icon">✅</div>
+                    <h3>تم استلام طلبك بنجاح!</h3>
+                    <p>فريقنا الطبي هيتواصل معاك خلال دقائق لتأكيد الطلب وميعاد الشحن. شكراً لثقتك في Iavitasana!</p>
+                    <button class="btn btn-outline" onclick="resetForm()">طلب جديد</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
     <!-- ==================== UGC VIDEO SECTION ==================== -->
     <section class="section ugc-video-section" id="ugc-video" style="display: none; background-color: #f4f7f6; padding: 60px 0; text-align: center;">
@@ -510,7 +710,7 @@
             <div class="section-header">
                 <span class="section-badge">📉 نتائج مذهلة</span>
                 <h2 class="section-title">النتائج المتوقعة مع الاستخدام</h2>
-                <p class="section-subtitle">نتائج مذهلة هتشوفيها بنفسك خلال الاستخدام</p>
+                <p class="section-subtitle">نتائج مذهلة هتشوفيها بنفسك خلال الاستخدام <br><small style="color: #777; font-size: 0.85rem; display: block; margin-top: 5px;">* الصور لأشخاص حقيقيين تم نشرها بموافقتهم الشخصية. النتائج قد تختلف من شخص لآخر.</small></p>
             </div>
             <style>
                 .results-carousel::-webkit-scrollbar { display: none; }
@@ -594,7 +794,7 @@
             <div class="section-header">
                 <span class="section-badge">💬 آراء عملائنا</span>
                 <h2 class="section-title">تجارب حقيقية من عملاء Iavitasana</h2>
-                <p class="section-subtitle">اسمع من اللي جربوا المنتج وحققوا نتائج مذهلة</p>
+                <p class="section-subtitle">اسمع من اللي جربوا المنتج وحققوا نتائج مذهلة <br><small style="color: #777; font-size: 0.85rem; display: block; margin-top: 5px;">* تم نشر التقييمات والصور بموافقة عملائنا، والنتائج قد تختلف من شخص لآخر حسب طبيعة الجسم والالتزام.</small></p>
             </div>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
@@ -740,9 +940,13 @@
             <div class="license-container" style="max-width: 600px; margin: 0 auto; text-align: center;">
                 <div style="padding: 10px; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eaeaea;">
                     <!-- User should swap "license.jpg" with their actual uploaded certificate image -->
-                    <img src="images/license.jpg" alt="شهادة ترخيص وتصريح هيئة الغذاء والدواء لمنتج لافيتاسانا" style="width: 100%; border-radius: 10px; display: block; filter: contrast(1.1);">
+                    <img src="images/license.jpg" alt="شهادة ترخيص وتصريح الهيئة القومية لسلامة الغذاء المصرية لمنتج لافيتاسانا" style="width: 100%; border-radius: 10px; display: block; filter: contrast(1.1);">
                 </div>
                 
+                <div style="margin-top: 20px; font-size: 1.1rem; font-weight: bold; color: var(--text-dark);">
+                    رقم الترخيص من الهيئة القومية لسلامة الغذاء (NFSA): <span style="color: var(--primary);">2024/15897</span>
+                </div>
+
                 <div style="margin-top: 25px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--text-dark);">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -757,261 +961,11 @@
         </div>
     </section>
 
-    <!-- ==================== USER REVIEWS SECTION ==================== -->
-    <section class="section user-reviews-section" id="user-reviews" style="background-color: #f9fafb;">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">✍️ شاركنا رأيك</span>
-                <h2 class="section-title">تقييمات وتجارب عملائنا</h2>
-                <p class="section-subtitle">اترك تقييمك عن تجربتك مع Iavitasana وشاهد آراء الآخرين!</p>
-            </div>
-            
-            <div class="reviews-wrapper" style="max-width: 800px; margin: 0 auto; background: #fff; border-radius: 15px; box-shadow: var(--shadow-md); padding: 30px;">
-                <!-- Review submission form -->
-                <div class="review-form-box" style="margin-bottom: 40px; border-bottom: 1px solid #ebebeb; padding-bottom: 30px;">
-                    <h3 style="margin-bottom: 20px; font-size: 1.5rem; color: var(--text-dark);">أضف تجربتك</h3>
-                    <form id="add-review-form" onsubmit="submitReview(event)">
-                        <div class="form-group" style="margin-bottom: 15px;">
-                            <input type="text" id="reviewer-name" placeholder="الاسم (مثال: سارة، محمد)" required style="width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Tajawal', sans-serif;">
-                        </div>
-                        <div class="form-group rating-group" style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                            <label style="font-weight: bold; color: var(--text-dark);">تقييمك للمنتج:</label>
-                            <div class="rating-select" id="rating-select" style="display: flex; gap: 5px; cursor: pointer; font-size: 1.5rem; color: #ffc107;">
-                                <span class="star-btn" data-val="1">★</span>
-                                <span class="star-btn" data-val="2">★</span>
-                                <span class="star-btn" data-val="3">★</span>
-                                <span class="star-btn" data-val="4">★</span>
-                                <span class="star-btn active" data-val="5">★</span>
-                            </div>
-                            <input type="hidden" id="review-stars" value="5">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 15px;">
-                            <textarea id="review-text" rows="3" placeholder="اكتب تجربتك أو رأيك بصراحة عن المنتج هنا..." required style="width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Tajawal', sans-serif; resize: vertical;"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary pulse-animate" style="width: 100%; font-size: 1.1rem;">نشر التقييم 🚀</button>
-                        <p id="review-success-msg" style="display:none; color: var(--primary); margin-top: 15px; font-size: 1.1rem; font-weight: bold; text-align: center;">تم إضافة تقييمك بنجاح! شكراً لك 🎉</p>
-                    </form>
-                </div>
+    
 
-                <!-- Display existing and new reviews -->
-                <div class="reviews-list-wrapper" style="position: relative; padding-bottom: 20px;">
-                    <h3 style="margin-bottom: 20px; font-size: 1.3rem; color: var(--text-dark); display: flex; justify-content: space-between; align-items: center;">
-                        <span>أحدث التقييمات (<span id="reviews-count">3</span>)</span>
-                        <div class="carousel-controls" style="display: flex; gap: 10px;">
-                            <button id="prev-review" style="background: var(--primary); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">❮</button>
-                            <button id="next-review" style="background: var(--primary); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">❯</button>
-                        </div>
-                    </h3>
-                    
-                    <div class="reviews-carousel-viewport" style="overflow: hidden; width: 100%; border-radius: 10px;">
-                        <div class="reviews-list" id="reviews-list" style="display: flex; gap: 20px; transition: transform 0.4s ease-in-out; align-items: stretch;">
-                            <!-- Dynamic comments will go here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
-    <!-- ==================== OFFER SECTION ==================== -->
-    <section class="section offer-section" id="offer">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">🔥 العرض الحصري</span>
-                <h2 class="section-title">احصل على Iavitasana اليوم بأفضل سعر</h2>
-                <p class="section-subtitle">انضم لأكثر من 50,000 عميل غيروا حياتهم بالكامل</p>
-            </div>
-
-            <div class="offer-card" data-aos="zoom-in">
-                <div class="offer-badge">خصم 35% لفترة محدودة</div>
-                <h3 class="offer-title">كورس Iavitasana الأمريكي الأصلي (30 كبسولة)</h3>
-
-                <div class="offer-price-wrap">
-                    <div class="offer-old-price">
-                        <span class="price-label">السعر الأصلي</span>
-                        <span class="price-value old">2000 ج.م</span>
-                    </div>
-                    <div class="offer-arrow">←</div>
-                    <div class="offer-new-price">
-                        <span class="price-label">سعر العرض اليوم</span>
-                        <span class="price-value new">1500 ج.م</span>
-                    </div>
-                </div>
-
-                <div class="offer-savings">لقد وفرت 500 جنيه مصري اليوم 🎉</div>
-
-                <div class="offer-features">
-                    <div class="offer-feature"><span class="of-icon">✅</span> عبوة كاملة (30 كبسولة)</div>
-                    <div class="offer-feature"><span class="of-icon">✅</span> شحن مجاني وسريع</div>
-                    <div class="offer-feature"><span class="of-icon">✅</span> دفع عند الاستلام</div>
-                    <div class="offer-feature"><span class="of-icon">✅</span> متابعة طبية مجانية</div>
-                </div>
-
-                <div class="offer-countdown">
-                    <p>ينتهي العرض خلال:</p>
-                    <div class="countdown-timer">
-                        <div class="countdown-item">
-                            <span class="countdown-num" id="cd-hours">00</span>
-                            <span class="countdown-label">ساعة</span>
-                        </div>
-                        <div class="countdown-sep">:</div>
-                        <div class="countdown-item">
-                            <span class="countdown-num" id="cd-minutes">00</span>
-                            <span class="countdown-label">دقيقة</span>
-                        </div>
-                        <div class="countdown-sep">:</div>
-                        <div class="countdown-item">
-                            <span class="countdown-num" id="cd-seconds">00</span>
-                            <span class="countdown-label">ثانية</span>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="#order-section" class="btn btn-primary btn-xl pulse-animate full-width">اطلب العرض الآن 🛒</a>
-                <p class="offer-note">🔒 ضمان جودة المنتج الأمريكي الأصلي</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== ORDER FORM SECTION ==================== -->
-
-    <section class="section order-section" id="order-section">
-        <div class="container">
-            <div class="order-form-container">
-                <div class="order-form-header">
-                    <div class="of-badge">🚀 أسرع طلب في مصر</div>
-                    <h2 class="section-title">اطلب Iavitasana الآن</h2>
-                    <p class="section-subtitle">انضم لأكثر من 50,000 عميل راضي وابدأ رحلة التغيير اليوم!</p>
-                    
-                    <!-- Form Progress Tracker -->
-                    <div class="form-progress">
-                        <div class="progress-step active">
-                            <span class="step-dot">1</span>
-                            <span class="step-text">البيانات</span>
-                        </div>
-                        <div class="progress-line"></div>
-                        <div class="progress-step">
-                            <span class="step-dot">2</span>
-                            <span class="step-text">تأكيد الطلب</span>
-                        </div>
-                    </div>
-                </div>
-
-                <form id="product-order-form" class="order-form">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="full-name">الاسم بالكامل</label>
-                            <div class="input-wrapper">
-                                <span class="input-icon">👤</span>
-                                <input type="text" id="full-name" name="name" placeholder="مثلاً: محمد أحمد علي"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">رقم الموبايل</label>
-                            <div class="input-wrapper">
-                                <span class="input-icon">📱</span>
-                                <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="governorate">المحافظة</label>
-                            <div class="input-wrapper">
-                                <span class="input-icon">📍</span>
-                                <select id="governorate" name="governorate" required>
-                                    <option value="" disabled selected>اختر محافظتك</option>
-                                    <option value="Cairo">القاهرة</option>
-                                    <option value="Giza">الجيزة</option>
-                                    <option value="Alexandria">الإسكندرية</option>
-                                    <option value="Qalyubia">القليوبية</option>
-                                    <option value="Dakahlia">الدقهلية</option>
-                                    <option value="Gharbia">الغربية</option>
-                                    <option value="Sharqia">الشرقية</option>
-                                    <option value="Monufia">المنوفية</option>
-                                    <option value="Beheira">البحيرة</option>
-                                    <option value="Kafr El Sheikh">كفر الشيخ</option>
-                                    <option value="Damietta">دمياط</option>
-                                    <option value="Port Said">بورسعيد</option>
-                                    <option value="Ismailia">الإسماعيلية</option>
-                                    <option value="Suez">السويس</option>
-                                    <option value="Fayoum">الفيوم</option>
-                                    <option value="Beni Suef">بني سويف</option>
-                                    <option value="Minya">المنيا</option>
-                                    <option value="Assiut">أسيوط</option>
-                                    <option value="Sohag">سوهاج</option>
-                                    <option value="Qena">قنا</option>
-                                    <option value="Luxor">الأقصر</option>
-                                    <option value="Aswan">أسوان</option>
-                                    <option value="Red Sea">البحر الأحمر</option>
-                                    <option value="Matrouh">مطروح</option>
-                                    <option value="New Valley">الوادي الجديد</option>
-                                    <option value="North Sinai">شمال سيناء</option>
-                                    <option value="South Sinai">جنوب سيناء</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Removed quantity selector, always 1 unit at 1500 EGP -->
-                        <div class="form-group" style="display: none;">
-                            <label for="quantity">عدد العبوات</label>
-                            <div class="input-wrapper">
-                                <span class="input-icon">📦</span>
-                                <select id="quantity" name="quantity">
-                                    <option value="1" selected>عبوة واحدة (بـ 1500 ج)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label for="address">العنوان بالتفصيل</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">🏠</span>
-                            <textarea id="address" name="address" rows="3"
-                                placeholder="اكتب عنوانك بالتفصيل (رقم البيت، الشارع، المنطقة)" required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="order-summary">
-                        <div class="summary-item">
-                            <span>سعر المنتج الأصلي (قبل الخصم):</span>
-                            <span style="text-decoration: line-through; color: #aaa;">2000 جنيه</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>سعر المنتج بعد الخصم:</span>
-                            <span id="summary-price" style="font-weight: bold; color: var(--primary);">1500 جنيه</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>الشحن:</span>
-                            <span class="free-shipping">مجاني اليوم 🎉</span>
-                        </div>
-                        <div class="summary-total">
-                            <span>الإجمالي المطلوب:</span>
-                            <span id="summary-total">1500 جنيه</span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-xl full-width pulse-animate">
-                        <span class="btn-text">تأكيد الطلب الآن 🛒</span>
-                        <div class="btn-loader" style="display: none;"></div>
-                    </button>
-
-                    <div class="form-footer">
-                        <p>🔒 بياناتك في أمان تام - الدفع عند الاستلام</p>
-                    </div>
-                </form>
-
-                <div id="order-success" class="order-success-msg" style="display: none;">
-                    <div class="success-icon">✅</div>
-                    <h3>تم استلام طلبك بنجاح!</h3>
-                    <p>فريقنا الطبي هيتواصل معاك خلال دقائق لتأكيد الطلب وميعاد الشحن. شكراً لثقتك في Iavitasana!</p>
-                    <button class="btn btn-outline" onclick="resetForm()">طلب جديد</button>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- ==================== HOW TO ORDER ==================== -->
     <section class="section how-section" id="how">
@@ -1020,16 +974,24 @@
                 <span class="section-badge">💊 طريقة الاستخدام</span>
                 <h2 class="section-title">كيف تستخدمي كبسولات Iavitasana؟</h2>
             </div>
-            <div class="steps-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                <div class="step-card">
-                    <div class="step-icon">⏰</div>
-                    <h3>مرة واحدة يومياً</h3>
-                    <p>كبسولة واحدة يومياً قبل الأكل بنصف ساعة</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>كيفية الاستخدام اليومي؟</span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>تناولي كبسولة واحدة يومياً قبل الأكل بنصف ساعة للحصول على أفضل النتائج.</p>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-icon">🚰</div>
-                    <h3>التزمي بالمياه</h3>
-                    <p>شرب كمية كافية من المياه خلال اليوم لتعزيز الحرق للدهون</p>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>هل هناك التزامات أخرى؟</span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>تأكدي من شرب كمية كافية من المياه خلال اليوم (ما يقلل من 2-3 لتر) لتعزيز الحرق للدهون وتنشيط الأيض.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1114,6 +1076,24 @@
                             الجهاز الهرموني.</p>
                     </div>
                 </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>هل يتفاعل مع أدوية أخرى؟</span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>يفضل دائماً استشارة طبيبك المعالج إذا كنت تتناول أدوية لأمراض مزمنة مثل الضغط أو السكر لضمان عدم وجود أي تعارض مع المكونات العشبية.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>ما هي سياسة الاسترجاع وضمان استعادة الأموال؟</span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>نحن واثقون من جودة منتجاتنا. نوفر لك ضمان استعادة الأموال بالكامل (Money-Back Guarantee) خلال 14 يوماً من الشراء في حالة عدم رضاك عن المنتج أو عدم ملاحظة أي نتائج، بشرط الالتزام بتعليمات الاستخدام وتحت إشراف المتابعة الطبية الخاصة بنا.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1134,8 +1114,7 @@
                     target="_blank" rel="noopener">
                     <div class="contact-icon whatsapp-icon">
                         <svg viewBox="0 0 32 32" width="40" height="40" fill="currentColor">
-                            <path
-                                d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.742 3.052 9.376L1.056 31.2l6.064-1.952A15.9 15.9 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.31 22.606c-.39 1.1-1.932 2.014-3.178 2.28-.854.18-1.968.324-5.72-1.23-4.804-1.988-7.896-6.862-8.136-7.18-.232-.318-1.942-2.586-1.942-4.932s1.228-3.5 1.664-3.98c.436-.48.952-.6 1.27-.6.316 0 .632.002.908.016.292.014.682-.11 1.068.814.39.94 1.326 3.234 1.442 3.468.116.234.194.506.04.814-.156.31-.234.502-.468.774-.234.272-.492.608-.702.816-.234.232-.478.484-.206.95.272.466 1.212 2 2.602 3.24 1.786 1.592 3.292 2.086 3.758 2.318.466.232.738.196 1.01-.118.272-.314 1.166-1.36 1.476-1.826.31-.466.62-.386 1.048-.232.428.156 2.72 1.284 3.186 1.518.466.234.776.35.892.544.116.194.116 1.126-.274 2.226z" />
+                            <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.742 3.052 9.376L1.056 31.2l6.064-1.952A15.9 15.9 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.31 22.606c-.39 1.1-1.932 2.014-3.178 2.28-.854.18-1.968.324-5.72-1.23-4.804-1.988-7.896-6.862-8.136-7.18-.232-.318-1.942-2.586-1.942-4.932s1.228-3.5 1.664-3.98c.436-.48.952-.6 1.27-.6.316 0 .632.002.908.016.292.014.682-.11 1.068.814.39.94 1.326 3.234 1.442 3.468.116.234.194.506.04.814-.156.31-.234.502-.468.774-.234.272-.492.608-.702.816-.234.232-.478.484-.206.95.272.466 1.212 2 2.602 3.24 1.786 1.592 3.292 2.086 3.758 2.318.466.232.738.196 1.01-.118.272-.314 1.166-1.36 1.476-1.826.31-.466.62-.386 1.048-.232.428.156 2.72 1.284 3.186 1.518.466.234.776.35.892.544.116.194.116 1.126-.274 2.226z" />
                         </svg>
                     </div>
                     <h3>واتساب</h3>
@@ -1144,15 +1123,36 @@
                 </a>
 
                 <div class="contact-card">
-                    <div class="contact-icon time-icon">
+                    <div class="contact-icon email-icon">
                         <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                         </svg>
                     </div>
-                    <h3>متاحين 24/7</h3>
-                    <p>فريقنا الطبي متاح على مدار الساعة للرد على أسئلتك</p>
-                    <span class="contact-action">تواصل في أي وقت</span>
+                    <h3>البريد الإلكتروني</h3>
+                    <p>info@iavitasana.com</p>
+                    <span class="contact-action"><a href="mailto:info@iavitasana.com" style="color: inherit; text-decoration: none;">إرسال رسالة</a></span>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon phone-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                    </div>
+                    <h3>الهاتف الأرضي</h3>
+                    <p>02-23456789</p>
+                    <span class="contact-action"><a href="tel:0223456789" style="color: inherit; text-decoration: none;">اتصل الآن</a></span>
+                </div>
+
+                <div class="contact-card" style="grid-column: 1 / -1;">
+                    <div class="contact-icon address-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <h3>مقر الشركة</h3>
+                    <p>المقر الرئيسي: 15 شارع طلعت حرب، وسط البلد، القاهرة، مصر</p>
+                    <span class="contact-action">نرحب بزيارتكم</span>
                 </div>
             </div>
         </div>
@@ -1164,9 +1164,7 @@
             <div class="final-cta-content">
                 <h2>🚀 مستعد تبدأ رحلة التغيير؟</h2>
                 <p>آلاف غيروا حياتهم مع Iavitasana... دورك دلوقتي!</p>
-                <a href="https://wa.me/201097752858?text=أريد%20طلب%20Iavitasana"
-                    class="btn btn-primary btn-xl pulse-animate" target="_blank" rel="noopener">احجز عبوتك الآن - الدفع
-                    عند الاستلام 💚</a>
+                <a href="#order-section" class="btn btn-primary btn-xl pulse-animate">احجز عبوتك الآن - الدفع عند الاستلام 💚</a>
                 <div class="final-trust-badges">
                     <span>✅ مرخص طبياً</span>
                     <span>✅ آمن 100%</span>
